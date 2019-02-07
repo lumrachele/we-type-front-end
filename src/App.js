@@ -1,25 +1,30 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import GameContainer from './GameContainer'
+import Login from './Login'
 
 class App extends Component {
+  state= {
+    loggedIn: false,
+    currentUser: null
+  }
+
+submitLogin = (info) => {
+  this.setState({
+    loggedIn: true,
+    currentUser: info
+  })
+
+}
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      {this.state.loggedIn ?
+      <GameContainer currentUser={this.state.currentUser} submitLogin={this.submitLogin}/>
+      :
+      <Login submitLogin= {this.submitLogin}/>}
+
       </div>
     );
   }
