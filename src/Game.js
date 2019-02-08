@@ -7,7 +7,13 @@ state= {
   games: [],
   currentGame: {},
   showQuote: false,
-  currentWord: ''
+  splitQuote: [],
+  currentWordIndex: 0,
+  typedWord: "",
+  correctTypedWord: "",
+  backgroundColor: "",
+  disabled: true
+
 }
 //when you click start, this will
 // render the quote
@@ -18,25 +24,36 @@ state= {
     .then(response => response.json())
     .then(games => {
       const updatedGames = games.map(game => {
-    return {...game, completed: false}
-  })
-  this.setState({
-    games: updatedGames,
-    currentGame: updatedGames[0]
-  }, console.log(this.state.currentGame))
-})
-}
+        return {...game, completed: false}
+      })
+      this.setState({
+        games: updatedGames,
+        currentGame: updatedGames[0]
+      })
+    })
+    .then(this.splitQuote)
+  }
 
-// then(recipes => {
-//       const updatedRecipes = recipes.meals.map(recipe => {
-//         return {...recipe, selected: false}
-//       })
-//       this.setState({
-//         recipes: updatedRecipes
-//       })
-//     }
-//     )
+
   handleChange=(event)=>{
+    event.persist()
+    this.setState({
+      typedWord: event.target.value
+    })
+    if(event.target.value!==this.state.splitQuote[this.state.currentWordIndex]){
+      this.setState({
+        backgroundColor: "rgb(255, 0, 0, 0.7)",
+        disabled: true
+      })
+    }
+   else if( event.target.value===this.state.splitQuote[this.state.currentWordIndex])
+    {
+    this.setState({
+      correctTypedWord: event.target.value,
+      backgroundColor: "",
+      disabled: false
+    })
+  }
 
   }
 
@@ -48,9 +65,45 @@ state= {
       showQuote: true
     })
   }
-  matchQuote= () => {
-    const splitQuote= this.state.currentGame.quote.content.split(' ')
 
+  splitQuote= () => {
+    const splitQuote= this.state.currentGame.quote.content.split(' ')
+    this.setState({
+      splitQuote: splitQuote
+    })
+  }
+
+  matchWords = (event)=>{
+    event.preventDefault()
+    // if (this.state.typedWord===""){
+    //   //want to disable submit
+    // }
+    if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]
+  ){this.setState({
+    currentWordIndex: this.state.currentWordIndex+1,
+    typedWord: "",
+    correctTypedWord: "",
+    disabled: true
+  }, ()=>{
+    console.log(
+    this.state.currentWordIndex
+  )})
+
+  }
+
+
+  //   const changeColor = this.state.splitQuote.map((word)=>{
+  //     if(this.state.typedWord===word){
+  //       return this.state.splitQuote[this.state.currentWordIndex].style.color("red")
+  //       }
+  //       else {
+  //         return word
+  //       }
+  //   })
+  //   this.setState({
+  //     splitQuote: changeColor
+  //   })
+  //   return changeColor
   }
 
   render(){
@@ -58,8 +111,14 @@ state= {
       <>
       <h1>GAME!</h1>
       <p>Canvas goes here</p>
-      {this.state.showQuote && <p>{this.state.currentGame.quote.content}, by {this.state.currentGame.quote.author}</p>}
-      <input type="text" name="userInput" onChange={this.handleChange}/>
+      {this.state.showQuote &&
+        <>
+        <p>{this.state.splitQuote.join(' ')} by {this.state.currentGame.quote.author}</p>
+        <form onSubmit={this.matchWords}>
+          <input style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}/>
+          <input type="submit" disabled={this.state.disabled} value="Submit"/>
+        </form>
+      </>}
       <Stopwatch startGame={this.startGame}/>
       </>
     )
