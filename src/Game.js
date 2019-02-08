@@ -23,7 +23,7 @@ state= {
   this.setState({
     games: updatedGames,
     currentGame: updatedGames[0]
-  }, console.log(this.state.currentGame))
+  })
 })
 }
 
