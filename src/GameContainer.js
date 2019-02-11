@@ -41,6 +41,7 @@ class GameContainer extends Component {
       <div className="GameContainer">
 
         <h2>Hey, {this.displayUser()}!</h2>
+        <button onClick= {()=>this.props.changeUser(this.props.currentUser)}>Change Name or Email</button>
         { this.state.startedGame ? <Game /> : <button onClick={this.handleStartGame}>Start a new game</button>
 
         }

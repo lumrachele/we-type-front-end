@@ -6,7 +6,8 @@ class Login extends Component {
     name: '',
     email: '',
     signIn: false,
-    createUser: false
+    createUser: false,
+
   }
   handleName= (event) => {
     this.setState({
@@ -54,6 +55,20 @@ class Login extends Component {
       createUser: !this.state.createUser
     })
   }
+  handleEditName= (event) => {
+    this.setState({
+      name: event.target.value
+    })
+  }
+  handleEditEmail= (event) => {
+    this.setState({
+      email: event.target.value
+    })
+  }
+  handleSubmitEditUser= (event)=> {
+    event.preventDefault()
+    this.props.editUserInfo(this.state)
+  }
   render() {
     return (
       <div className="Login">
@@ -72,6 +87,13 @@ class Login extends Component {
         <input type= 'text' onChange={this.handleNewUserName} value= {this.state.name}/>
         <label> Email </label>
         <input type= 'text' onChange={this.handleNewUserEmail} value= {this.state.email}/>
+        <button> Submit </button>
+        </form>}
+        {this.props.editUser && <form onSubmit= {this.handleSubmitEditUser}>
+        <label> Name </label>
+        <input type= 'text' onChange={this.handleEditName} defaultValue= {this.props.currentUser.name}/>
+        <label> Email </label>
+        <input type= 'text' onChange={this.handleEditEmail} defaultValue= {this.props.currentUser.email}/>
         <button> Submit </button>
         </form>}
 
