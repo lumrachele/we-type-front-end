@@ -1,9 +1,11 @@
 import React from 'react'
+import Score from './Score'
 
 export default class Stopwatch extends React.Component{
   state = {
     status: false,
-    runningTime: 0
+    runningTime: 0,
+    finishedTime: null
   };
   handleClick = () => {
     this.setState(state => {
@@ -12,13 +14,13 @@ export default class Stopwatch extends React.Component{
       } else {
         const startTime = Date.now() - this.state.runningTime;
         this.timer = setInterval(() => {
-          this.setState({ runningTime: Date.now() - startTime });
+          this.setState({ runningTime: Date.now() - startTime, finishedTime: this.state.runningTime});
         }, 1000);
         this.props.startGame()
       }
-      return { status: !state.status };
+      return { status: !state.status};
     });
-  };
+  } ;
 
   handleReset = () => {
       clearInterval(this.timer); // new
@@ -36,6 +38,7 @@ export default class Stopwatch extends React.Component{
         <p>{Math.floor(runningTime/1000)} s</p>
         <button onClick={this.handleClick}>{status ? 'Stop' : 'Start'}</button>
         <button onClick={this.handleReset}>Reset</button>
+        <Score finishedTime= {this.state.finishedTime}/>
       </div>
     );
   }

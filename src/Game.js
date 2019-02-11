@@ -1,5 +1,6 @@
 import React from 'react'
 import Stopwatch from './Stopwatch'
+import Canvas from './Canvas'
 
 export default class Game extends React.Component{
 state= {
@@ -110,7 +111,7 @@ state= {
     return(
       <>
       <h1>GAME!</h1>
-      <p>Canvas goes here</p>
+      <Canvas />
       {this.state.showQuote &&
         <>
         <p>{this.state.splitQuote.join(' ')} by {this.state.currentGame.quote.author}</p>
