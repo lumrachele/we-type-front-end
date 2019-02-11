@@ -1,5 +1,5 @@
 import React from 'react'
-import Score from './Score'
+// import Score from './Score'
 
 export default class Stopwatch extends React.Component{
   state = {
@@ -27,6 +27,11 @@ export default class Stopwatch extends React.Component{
       this.setState({ runningTime: 0, status: false });
     };
 
+  calculateScore= ()=> {
+    clearInterval(this.timer)
+    return this.props.quoteLength*60/Math.floor(this.state.finishedTime/1000)
+  }
+
   render() {
     const { status, runningTime } = this.state;
     return (
@@ -39,8 +44,7 @@ export default class Stopwatch extends React.Component{
         </>
         :
           <React.Fragment>
-            {clearInterval(this.timer)}
-            <Score finishedTime= {this.state.finishedTime} quoteLength={this.props.quoteLength}/>
+                <h1> Your Score: {this.calculateScore()} words per minute</h1>
           </React.Fragment>
         }
       </div>
