@@ -3,7 +3,7 @@ import Score from './Score'
 
 export default class Stopwatch extends React.Component{
   state = {
-    status: false,
+    status: this.props.status,
     runningTime: 0,
     finishedTime: null
   };
@@ -27,18 +27,22 @@ export default class Stopwatch extends React.Component{
       this.setState({ runningTime: 0, status: false });
     };
 
-  componentWillUnmount() {
-     clearInterval(this.timer);
-  }
-
   render() {
     const { status, runningTime } = this.state;
     return (
       <div>
-        <p>{Math.floor(runningTime/1000)} s</p>
-        <button onClick={this.handleClick}>{status ? 'Stop' : 'Start'}</button>
+        { this.props.currentWordIndex < this.props.quoteLength ?
+          <>
+          <p>{Math.floor(runningTime/1000)} s</p>
+        <button onClick={this.handleClick}>{status ? 'Pause' : 'Start'}</button>
         <button onClick={this.handleReset}>Reset</button>
-        <Score finishedTime= {this.state.finishedTime}/>
+        </>
+        :
+          <React.Fragment>
+            {clearInterval(this.timer)}
+            <Score finishedTime= {this.state.finishedTime} quoteLength={this.props.quoteLength}/>
+          </React.Fragment>
+        }
       </div>
     );
   }

@@ -23,7 +23,6 @@ class GameContainer extends Component {
     })
   }
 
-
   displayUser=()=>{
     return this.state.confirmedUser.name
   }
