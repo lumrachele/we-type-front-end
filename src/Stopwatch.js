@@ -14,7 +14,7 @@ export default class Stopwatch extends React.Component{
       } else {
         const startTime = Date.now() - this.state.runningTime;
         this.timer = setInterval(() => {
-          this.setState({ runningTime: Date.now() - startTime, finishedTime: this.state.runningTime});
+          this.setState({ runningTime: Date.now() - startTime, finishedTime: startTime - this.state.runningTime });
         }, 1000);
         this.props.startGame()
       }
