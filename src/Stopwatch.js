@@ -1,9 +1,9 @@
 import React from 'react'
-import Score from './Score'
+// import Score from './Score'
 
 export default class Stopwatch extends React.Component{
   state = {
-    status: false,
+    status: this.props.status,
     runningTime: 0,
     finishedTime: null
   };
@@ -27,18 +27,26 @@ export default class Stopwatch extends React.Component{
       this.setState({ runningTime: 0, status: false });
     };
 
-  componentWillUnmount() {
-     clearInterval(this.timer);
+  calculateScore= ()=> {
+    clearInterval(this.timer)
+    return this.props.quoteLength*60/Math.floor(this.state.finishedTime/1000)
   }
 
   render() {
     const { status, runningTime } = this.state;
     return (
       <div>
-        <p>{Math.floor(runningTime/1000)} s</p>
-        <button onClick={this.handleClick}>{status ? 'Stop' : 'Start'}</button>
+        { this.props.currentWordIndex < this.props.quoteLength ?
+          <>
+          <p>{Math.floor(runningTime/1000)} s</p>
+        <button onClick={this.handleClick}>{status ? 'Pause' : 'Start'}</button>
         <button onClick={this.handleReset}>Reset</button>
-        <Score finishedTime= {this.state.finishedTime}/>
+        </>
+        :
+          <React.Fragment>
+                <h1> Your Score: {this.calculateScore()} words per minute</h1>
+          </React.Fragment>
+        }
       </div>
     );
   }

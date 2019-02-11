@@ -1,6 +1,7 @@
 import React from 'react'
 import Stopwatch from './Stopwatch'
 import Canvas from './Canvas'
+import Score from './Score'
 
 export default class Game extends React.Component{
 state= {
@@ -13,7 +14,8 @@ state= {
   typedWord: "",
   correctTypedWord: "",
   backgroundColor: "",
-  disabled: true
+  disabled: true,
+  status: false
 
 }
 //when you click start, this will
@@ -54,6 +56,10 @@ state= {
       backgroundColor: "",
       disabled: false
     })
+  } else if (this.state.currentWordIndex === this.state.splitQuote.length-1){
+    this.setState({
+      disabled: true
+    })
   }
 
   }
@@ -85,10 +91,7 @@ state= {
     typedWord: "",
     correctTypedWord: "",
     disabled: true
-  }, ()=>{
-    console.log(
-    this.state.currentWordIndex
-  )})
+  })
 
   }
 
@@ -115,12 +118,17 @@ state= {
       {this.state.showQuote &&
         <>
         <p>{this.state.splitQuote.join(' ')} by {this.state.currentGame.quote.author}</p>
-        <form onSubmit={this.matchWords}>
-          <input style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}/>
-          <input type="submit" disabled={this.state.disabled} value="Submit"/>
-        </form>
+        {this.state.currentWordIndex < this.state.splitQuote.length &&
+          <form onSubmit={this.matchWords}>
+            <input style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}/>
+            <input type="submit" disabled={this.state.disabled} value="Submit"/>
+          </form>
+        }
+
       </>}
-      <Stopwatch startGame={this.startGame}/>
+      {
+        <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}/>
+      }
       </>
     )
   }
