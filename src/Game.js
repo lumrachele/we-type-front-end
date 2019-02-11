@@ -32,7 +32,7 @@ state= {
       this.setState({
         games: updatedGames,
         currentGame: updatedGames[0]
-      })
+      }, console.log(updatedGames))
     })
     .then(this.splitQuote)
   }
@@ -86,28 +86,28 @@ state= {
     //   //want to disable submit
     // }
     if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]
-  ){this.setState({
+  ){
+    this.setState({
     currentWordIndex: this.state.currentWordIndex+1,
     typedWord: "",
     correctTypedWord: "",
     disabled: true
   })
-
   }
 
-
-  //   const changeColor = this.state.splitQuote.map((word)=>{
-  //     if(this.state.typedWord===word){
-  //       return this.state.splitQuote[this.state.currentWordIndex].style.color("red")
-  //       }
-  //       else {
-  //         return word
-  //       }
-  //   })
-  //   this.setState({
-  //     splitQuote: changeColor
-  //   })
-  //   return changeColor
+    //
+    // const changeColor = this.state.splitQuote.map((word)=>{
+    //   if(this.state.typedWord===word){
+    //     return this.state.splitQuote[this.state.currentWordIndex].style.underline
+    //     }
+    //     else {
+    //       return word
+    //     }
+    // })
+    // this.setState({
+    //   splitQuote: changeColor
+    // })
+    // return changeColor
   }
 
   render(){
@@ -126,9 +126,9 @@ state= {
         }
 
       </>}
-      {
+
         <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}/>
-      }
+
       </>
     )
   }
