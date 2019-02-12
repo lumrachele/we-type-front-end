@@ -2,6 +2,7 @@ import React from 'react'
 import Stopwatch from './Stopwatch'
 import Canvas from './Canvas'
 import Score from './Score'
+import Scoreboard from './Scoreboard'
 
 export default class Game extends React.Component{
 state= {
@@ -15,7 +16,8 @@ state= {
   correctTypedWord: "",
   backgroundColor: "",
   disabled: true,
-  status: false
+  status: false,
+  scores: []
 
 }
 //when you click start, this will
@@ -75,6 +77,13 @@ state= {
 
 componentDidMount() {
   this.splitQuote()
+  fetch('http://localhost:3000/api/v1/scores')
+  .then(response => response.json())
+  .then(scores=> this.setState({
+    scores: scores
+  }))
+
+
 }
   splitQuote= () => {
     const splitQuote= this.props.currentGame.quote.content.split(' ')
@@ -111,11 +120,31 @@ componentDidMount() {
     // return changeColor
   }
 
+  submitUsername = (newUsername, score)=>{
+    fetch(`http://localhost:3000/api/v1/scores`, {method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },body: JSON.stringify({score:{
+      game_id: this.props.currentGame.id,
+      score: score,
+      username: newUsername
+    }
+      })
+    })
+    .then(res=>res.json())
+    .then(scores=> this.setState({
+      scores
+    }))
+  }
+
+
   render(){
     return(
       <>
       <h1>GAME!</h1>
       <Canvas />
+
       {this.state.showQuote &&
         <>
         <p>{this.state.splitQuote.join(' ')} by {this.props.currentGame.quote.author}</p>
@@ -127,7 +156,10 @@ componentDidMount() {
         }
 
       </>}
-        <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}/>
+        <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}
+        currentGame={this.props.currentGame}
+        submitUsername = {this.submitUsername}/>
+        <Scoreboard scores={this.state.scores}/>
       </>
     )
   }
