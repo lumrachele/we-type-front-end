@@ -121,7 +121,7 @@ componentDidMount() {
   }
 
   submitUsername = (newUsername, score)=>{
-    fetch(`http://localhost:3000/api/v1/scores`, {method: "POST",
+    fetch('http://localhost:3000/api/v1/scores', {method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json"
@@ -133,9 +133,16 @@ componentDidMount() {
       })
     })
     .then(res=>res.json())
-    .then(scores=> this.setState({
-      scores
+    // .then(scores=> this.setState({
+    //   scores
+    // }))
+    .then(score=>this.setState({
+      scores: [...this.state.scores, score]
     }))
+  }
+
+  getScores = ()=>{
+    return this.state.scores
   }
 
 
@@ -159,7 +166,7 @@ componentDidMount() {
         <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}
         currentGame={this.props.currentGame}
         submitUsername = {this.submitUsername}/>
-        <Scoreboard scores={this.state.scores}/>
+        <Scoreboard scores={this.getScores()}/>
       </>
     )
   }
