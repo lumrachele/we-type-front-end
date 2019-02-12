@@ -26,6 +26,12 @@ state= {
   scores: []
 
 }
+
+spanTagsForSplitQuote=()=>{
+  this.state.splitQuote.map((q)=>{
+    return <span>q</span>
+  })
+}
 //when you click start, this will
 // render the quote
 // start the timer - setinterval
@@ -48,6 +54,8 @@ state= {
 
   handleChange=(event)=>{
     event.persist()
+
+    console.log(event.target.value)
     this.setState({
       typedWord: event.target.value
     })
@@ -98,9 +106,7 @@ componentDidMount() {
     })
   }
 
-  matchWords = (event)=>{
-    event.preventDefault()
-
+  matchWords = ()=>{
     if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]
   ){
     this.setState({
@@ -110,7 +116,6 @@ componentDidMount() {
     disabled: true
   })
   }
-
     //
     // const changeColor = this.state.splitQuote.map((word)=>{
     //   if(this.state.typedWord===word){
@@ -124,6 +129,13 @@ componentDidMount() {
     //   splitQuote: changeColor
     // })
     // return changeColor
+  }
+  handleKeyDown=(event)=>{
+    if(event.key === " " && this.state.correctTypedWord){
+      this.matchWords()
+    }else{
+      return null
+    }
   }
 
   submitUsername = (newUsername, score)=>{
@@ -153,7 +165,6 @@ componentDidMount() {
 
 
   render(){
-    console.log(this.props)
     return(
       <>
 
@@ -163,16 +174,15 @@ componentDidMount() {
 
 
       <h1>GAME!</h1>
-      <Canvas />
+      <img src="https://media0.giphy.com/media/o0vwzuFwCGAFO/200w.webp?cid=3640f6095c632f24445833616bf2c3bb" alt="cat-typing"/>
 
       {this.state.showQuote &&
         <>
         <p>{this.state.splitQuote.join(' ')} by {this.props.currentGame.quote.author}</p>
         {this.state.currentWordIndex < this.state.splitQuote.length &&
-          <form onSubmit={this.matchWords}>
-            <input style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}/>
-            <input type="submit" disabled={this.state.disabled} value="Submit"/>
-          </form>
+            <input style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
+             onKeyDown={this.handleKeyDown}/>
+
         }
 
       </>}

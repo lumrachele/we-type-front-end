@@ -98,7 +98,7 @@ class GameContainer extends Component {
       })
       this.setState({
         games: updatedGames
-      }, console.log(updatedGames))
+      })
     })
   }
 
@@ -136,21 +136,11 @@ class GameContainer extends Component {
 
   handleStartGame=(gameId)=>{
     const foundGame= this.state.games.find(game => gameId === game.id)
-    console.log(foundGame);
     this.setState({
       startedGame: true,
       currentGame: foundGame
     })
   }
-
-
-  findCard = (e)=>{
-    console.log(e.target)
-  }
-  //
-  // logClick=(e)=>{
-  //   console.log(e.target)
-  // }
 
 
   //when a game ends, start game is set to false
@@ -164,8 +154,8 @@ class GameContainer extends Component {
 
   render() {
     //router is in return statement to decide
-    //which componet is redered based on the url
-    console.log(this.props.history.push)
+    // //which componet is redered based on the url
+    // console.log(this.props.history.push)
 
     return (
       <div className="GameContainer">
