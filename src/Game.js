@@ -56,6 +56,10 @@ spanTagsForSplitQuote=()=>{
     event.persist()
 
     console.log(event.target.value)
+    if (event.target.value === " " ) {
+      event.target.value = ""
+    }
+    //debugger
     this.setState({
       typedWord: event.target.value
     })
@@ -130,6 +134,7 @@ componentDidMount() {
     // })
     // return changeColor
   }
+
   handleKeyDown=(event)=>{
     if(event.key === " " && this.state.correctTypedWord){
       this.matchWords()
