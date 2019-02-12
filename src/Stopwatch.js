@@ -65,6 +65,7 @@ export default class Stopwatch extends React.Component{
               <h1> Your Score: {this.calculateScore()} words per minute
               </h1>
               <label>Username:</label>
+              <br></br>
               <input name="username" type="text" value={this.state.username} onChange={this.handleName}/>
               <input type="submit" value= "Submit"/>
             </form>
