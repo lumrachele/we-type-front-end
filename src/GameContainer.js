@@ -70,6 +70,7 @@ class GameContainer extends Component {
     super(props)
     this.state={
       // confirmedUser: this.props.currentUser,
+      currentGame: {},
       games: [],
       startedGame: false
     }
@@ -119,7 +120,7 @@ class GameContainer extends Component {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button onClick={this.handleStartGame} size="small" color="primary">
+            <Button onClick={()=>{this.handleStartGame(game.id)}} id={game.id} size="small" color="primary">
               Play
             </Button>
           </CardActions>
@@ -129,9 +130,12 @@ class GameContainer extends Component {
   )
   }
 
-  handleStartGame=(event)=>{
+  handleStartGame=(gameId)=>{
+    const foundGame= this.state.games.find(game => gameId === game.id)
+    console.log(foundGame);
     this.setState({
-      startedGame: true
+      startedGame: true,
+      currentGame: foundGame
     })
   }
 
@@ -156,7 +160,7 @@ class GameContainer extends Component {
     return (
       <div className="GameContainer">
         <h1>Welcome to WeType</h1>
-        { this.state.startedGame ? <Game startGame={this.handleStartGame} /> :
+        { this.state.startedGame ? <Game startGame={this.handleStartGame} currentGame={this.state.currentGame}/> :
           <Grid container spacing={40} onClick={null}>
             {this.displayGames()}
           </Grid>
