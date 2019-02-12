@@ -82,9 +82,7 @@ state= {
 
   matchWords = (event)=>{
     event.preventDefault()
-    // if (this.state.typedWord===""){
-    //   //want to disable submit
-    // }
+
     if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]
   ){
     this.setState({
@@ -126,9 +124,7 @@ state= {
         }
 
       </>}
-
         <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}/>
-
       </>
     )
   }
