@@ -7,7 +7,7 @@ export default class Game extends React.Component{
 state= {
   quote: {},
   games: [],
-  currentGame: {},
+  // this.props.currentGame: {},
   showQuote: false,
   splitQuote: [],
   currentWordIndex: 0,
@@ -22,20 +22,20 @@ state= {
 // render the quote
 // start the timer - setinterval
 // render an input form
-  componentDidMount () {
-    fetch('http://localhost:3000/api/v1/games')
-    .then(response => response.json())
-    .then(games => {
-      const updatedGames = games.map(game => {
-        return {...game, completed: false}
-      })
-      this.setState({
-        games: updatedGames,
-        currentGame: updatedGames[0]
-      }, console.log(updatedGames))
-    })
-    .then(this.splitQuote)
-  }
+  // componentDidMount () {
+  //   fetch('http://localhost:3000/api/v1/games')
+  //   .then(response => response.json())
+  //   .then(games => {
+  //     const updatedGames = games.map(game => {
+  //       return {...game, completed: false}
+  //     })
+  //     this.setState({
+  //       games: updatedGames,
+  //       this.props.currentGame: updatedGames[0]
+  //     }, console.log(updatedGames))
+  //   })
+  //   .then(this.splitQuote)
+  // }
 
 
   handleChange=(event)=>{
@@ -73,8 +73,11 @@ state= {
     })
   }
 
+componentDidMount() {
+  this.splitQuote()
+}
   splitQuote= () => {
-    const splitQuote= this.state.currentGame.quote.content.split(' ')
+    const splitQuote= this.props.currentGame.quote.content.split(' ')
     this.setState({
       splitQuote: splitQuote
     })
@@ -115,7 +118,7 @@ state= {
       <Canvas />
       {this.state.showQuote &&
         <>
-        <p>{this.state.splitQuote.join(' ')} by {this.state.currentGame.quote.author}</p>
+        <p>{this.state.splitQuote.join(' ')} by {this.props.currentGame.quote.author}</p>
         {this.state.currentWordIndex < this.state.splitQuote.length &&
           <form onSubmit={this.matchWords}>
             <input style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}/>
