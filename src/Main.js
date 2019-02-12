@@ -13,8 +13,12 @@ import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import ReactDOM from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { withRouter } from "react-router";
 
-export default class Main extends React.Component {
+
+class Main extends React.Component {
 
 displayGames = ()=>{
   return this.props.games.map(game => {
@@ -34,7 +38,9 @@ displayGames = ()=>{
           </Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={()=>{this.props.handleStartGame(game.id)}} id={game.id} size="small" color="primary">
+          <Button onClick={()=>{
+            this.props.history.push(`/games/${game.id}`)
+            this.props.handleStartGame(game.id)}} id={game.id} size="small" color="primary">
             Play
           </Button>
         </CardActions>
@@ -51,6 +57,6 @@ displayGames = ()=>{
       </Grid>
     )
   }
-
-
 }
+
+export default withRouter(Main)

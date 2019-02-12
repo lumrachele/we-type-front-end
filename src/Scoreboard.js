@@ -21,8 +21,8 @@ render() {
   return(
     <div className= 'scoreboard'>
 
+      <h2> Scoreboard </h2>
         <table className="table">
-          <h2> Scoreboard </h2>
           <tbody>
             <tr>
               <th>
