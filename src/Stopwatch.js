@@ -34,7 +34,6 @@ export default class Stopwatch extends React.Component{
   }
 
   handleName=(event)=>{
-    console.log(event.target.value)
     this.setState({
       username: event.target.value
     })
@@ -57,7 +56,6 @@ export default class Stopwatch extends React.Component{
           <>
           <p>{Math.floor(runningTime/1000)} s</p>
         <button onClick={this.handleClick}>{status ? 'Pause' : 'Start'}</button>
-        <button onClick={this.handleReset}>Reset</button>
         </>
         :
           <React.Fragment>
