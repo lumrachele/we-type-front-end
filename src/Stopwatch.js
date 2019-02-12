@@ -5,7 +5,8 @@ export default class Stopwatch extends React.Component{
   state = {
     status: this.props.status,
     runningTime: 0,
-    finishedTime: null
+    finishedTime: null,
+    username: ""
   };
   handleClick = () => {
     this.setState(state => {
@@ -32,6 +33,22 @@ export default class Stopwatch extends React.Component{
     return this.props.quoteLength*60/Math.floor(this.state.finishedTime/1000)
   }
 
+  handleName=(event)=>{
+    console.log(event.target.value)
+    this.setState({
+      username: event.target.value
+    })
+  }
+
+  handleSubmit=(event)=>{
+    //points to other function
+    event.preventDefault()
+    this.props.submitUsername(this.state.username, this.calculateScore())
+    this.setState({
+      username: ""
+    })
+  }
+
   render() {
     const { status, runningTime } = this.state;
     return (
@@ -44,7 +61,13 @@ export default class Stopwatch extends React.Component{
         </>
         :
           <React.Fragment>
-                <h1> Your Score: {this.calculateScore()} words per minute</h1>
+            <form onSubmit={this.handleSubmit}>
+              <h1> Your Score: {this.calculateScore()} words per minute
+              </h1>
+              <label>Username:</label>
+              <input name="username" type="text" value={this.state.username} onChange={this.handleName}/>
+              <input type="submit" value= "Submit"/>
+            </form>
           </React.Fragment>
         }
       </div>
