@@ -3,8 +3,14 @@ import Stopwatch from './Stopwatch'
 import Canvas from './Canvas'
 import Score from './Score'
 import Scoreboard from './Scoreboard'
+import Main from './Main'
+import ReactDOM from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { withRouter } from "react-router";
 
-export default class Game extends React.Component{
+
+
+class Game extends React.Component{
 state= {
   quote: {},
   games: [],
@@ -147,8 +153,15 @@ componentDidMount() {
 
 
   render(){
+    console.log(this.props)
     return(
       <>
+
+      <nav>
+        <Link to="/">Back to Main Menu</Link>
+      </nav>
+
+
       <h1>GAME!</h1>
       <Canvas />
 
@@ -167,8 +180,10 @@ componentDidMount() {
         currentGame={this.props.currentGame}
         submitUsername = {this.submitUsername}/>
         <Scoreboard scores={this.getScores()}/>
-        <button>Back to Main Menu</button>
+
       </>
     )
   }
 }
+
+export default withRouter(Game)

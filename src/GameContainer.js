@@ -15,6 +15,9 @@ import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import ReactDOM from 'react-router-dom'
+import { withRouter } from "react-router";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 const styles = theme => ({
@@ -155,21 +158,50 @@ class GameContainer extends Component {
   //this needs to be a create, with prefilled values
   //for score and game_id. just needs the user to fill in
   //his/her name
+  gameURL=()=>{
+    return `/games/${this.state.currentGame.id}`
+  }
 
   render() {
+    //router is in return statement to decide
+    //which componet is redered based on the url
+    console.log(this.props.history.push)
 
     return (
       <div className="GameContainer">
-        <h1>Welcome to WeType</h1>
-        { this.state.startedGame ?
-          <Game startGame={this.handleStartGame} currentGame={this.state.currentGame}/>
-        :
-        <Main games={this.state.games} handleStartGame={this.handleStartGame}/>
+      <h1>Welcome to WeType</h1>
+      <Router>
+        <>
+          <Route path="/" exact component={()=><Main games={this.state.games} handleStartGame={this.handleStartGame} />
+        }  />
+
+          <Route path={this.gameURL()} component={()=><Game startGame={this.handleStartGame} currentGame={this.state.currentGame} />
         }
+          />
+        </>
+      </Router>
+
 
       </div>
     )
   }
 }
 
-export default GameContainer;
+export default withRouter(GameContainer)
+// { this.state.startedGame ?
+  //
+  //   <Game startGame={this.handleStartGame} currentGame={this.state.currentGame}/>
+  //   :
+  //   <Main games={this.state.games} handleStartGame={this.handleStartGame} />
+  // }
+
+
+// <Router>
+//   <>
+//     <nav>
+//       <Link to="/main">Back to Main Menu</Link>
+//     </nav>
+//     <Route path="/main" component={()=><Main games={this.state.games} handleStartGame={this.handleStartGame} />}
+//     />
+//   </>
+// </Router>
