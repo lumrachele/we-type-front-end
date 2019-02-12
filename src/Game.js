@@ -167,6 +167,7 @@ componentDidMount() {
         currentGame={this.props.currentGame}
         submitUsername = {this.submitUsername}/>
         <Scoreboard scores={this.getScores()}/>
+        <button>Back to Main Menu</button>
       </>
     )
   }

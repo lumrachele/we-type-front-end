@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Game from './Game'
-// import React from 'react';
+import Main from './Main'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import AppBar from '@material-ui/core/AppBar';
@@ -103,33 +103,33 @@ class GameContainer extends Component {
   //   return this.state.confirmedUser.name
   // }
 
-  displayGames = ()=>{
-    return this.state.games.map(game => {
-      return (<Grid item key={game.id} game={game} sm={6} md={4} lg={3} onClick={this.findCard}>
-        <Card className={null} id={game.id} >
-          <CardMedia
-            className={null}
-            image="rawpixel-749470-unsplash.jpg"
-            alt="Image title"
-          />
-          <CardContent className={null}>
-            <Typography gutterBottom variant="h5" component="h2">
-              {game.name}
-            </Typography>
-            <Typography>
-              {game.quote.content}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button onClick={()=>{this.handleStartGame(game.id)}} id={game.id} size="small" color="primary">
-              Play
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-    )}
-  )
-  }
+  // displayGames = ()=>{
+  //   return this.state.games.map(game => {
+  //     return (<Grid item key={game.id} game={game} sm={6} md={4} lg={3} onClick={this.findCard}>
+  //       <Card className={null} id={game.id} >
+  //         <CardMedia
+  //           className={null}
+  //           image="rawpixel-749470-unsplash.jpg"
+  //           alt="Image title"
+  //         />
+  //         <CardContent className={null}>
+  //           <Typography gutterBottom variant="h5" component="h2">
+  //             {game.name}
+  //           </Typography>
+  //           <Typography>
+  //             {game.quote.content}
+  //           </Typography>
+  //         </CardContent>
+  //         <CardActions>
+  //           <Button onClick={()=>{this.handleStartGame(game.id)}} id={game.id} size="small" color="primary">
+  //             Play
+  //           </Button>
+  //         </CardActions>
+  //       </Card>
+  //     </Grid>
+  //   )}
+  // )
+  // }
 
   handleStartGame=(gameId)=>{
     const foundGame= this.state.games.find(game => gameId === game.id)
@@ -161,12 +161,12 @@ class GameContainer extends Component {
     return (
       <div className="GameContainer">
         <h1>Welcome to WeType</h1>
-        { this.state.startedGame ? <Game startGame={this.handleStartGame} currentGame={this.state.currentGame}/> :
-          <Grid container spacing={40} onClick={null}>
-            {this.displayGames()}
-          </Grid>
+        { this.state.startedGame ?
+          <Game startGame={this.handleStartGame} currentGame={this.state.currentGame}/>
+        :
+        <Main games={this.state.games} handleStartGame={this.handleStartGame}/>
         }
-        
+
       </div>
     )
   }
