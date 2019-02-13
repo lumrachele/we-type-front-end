@@ -7,6 +7,7 @@ import Main from './Main'
 import ReactDOM from 'react-router-dom'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { withRouter } from "react-router";
+import { NavLink } from 'react-router-dom'
 
 
 
@@ -15,7 +16,7 @@ state= {
   quote: {},
   games: [],
   // this.props.currentGame: {},
-  showQuote: false,
+  // showQuote: false,
   splitQuote: [],
   currentWordIndex: 0,
   typedWord: "",
@@ -23,7 +24,9 @@ state= {
   backgroundColor: "",
   disabled: true,
   status: false,
-  scores: []
+  scores: [],
+  showInput: false,
+  show: false
 
 }
 
@@ -89,19 +92,18 @@ spanTagsForSplitQuote=()=>{
 
   startGame=()=>{
     this.setState({
-      showQuote: true
+      showInput: true
     })
   }
 
 componentDidMount() {
   this.splitQuote()
+  // this.input.focus()
   fetch('http://localhost:3000/api/v1/scores')
   .then(response => response.json())
   .then(scores=> this.setState({
     scores: scores
   }))
-
-
 }
   splitQuote= () => {
     const splitQuote= this.props.currentGame.quote.content.split(' ')
@@ -113,12 +115,12 @@ componentDidMount() {
   matchWords = ()=>{
     if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]
   ){
-    this.setState({
-    currentWordIndex: this.state.currentWordIndex+1,
-    typedWord: "",
-    correctTypedWord: "",
-    disabled: true
-  })
+      this.setState({
+      currentWordIndex: this.state.currentWordIndex+1,
+      typedWord: "",
+      correctTypedWord: "",
+      disabled: true
+    })
   }
     //
     // const changeColor = this.state.splitQuote.map((word)=>{
@@ -156,9 +158,6 @@ componentDidMount() {
       })
     })
     .then(res=>res.json())
-    // .then(scores=> this.setState({
-    //   scores
-    // }))
     .then(score=>this.setState({
       scores: [...this.state.scores, score]
     }))
@@ -168,33 +167,38 @@ componentDidMount() {
     return this.state.scores
   }
 
+  toggleModal=()=>{
+    this.setState({
+      show: !this.state.show
+    })
+  }
+
+  //when the user finishes typing/ ends the game,
+  // it should toggle modal to be true
+
 
   render(){
     return(
       <>
-
       <nav>
-        <Link to="/">Back to Main Menu</Link>
+        <NavLink to="/">Back to Main Menu</NavLink>
       </nav>
-
-
       <h1>GAME!</h1>
       <img src="https://media0.giphy.com/media/o0vwzuFwCGAFO/200w.webp?cid=3640f6095c632f24445833616bf2c3bb" alt="cat-typing"/>
 
-      {this.state.showQuote &&
-        <>
         <p>{this.state.splitQuote.join(' ')} by {this.props.currentGame.quote.author}</p>
-        {this.state.currentWordIndex < this.state.splitQuote.length &&
-            <input style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
+
+        {this.state.showInput &&
+            <input ref={(input)=>{this.input = input}} style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
              onKeyDown={this.handleKeyDown}/>
+           }
 
-        }
-
-      </>}
         <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}
         currentGame={this.props.currentGame}
-        submitUsername = {this.submitUsername}/>
-        <Scoreboard scores={this.getScores()}/>
+        submitUsername = {this.submitUsername}
+        show={this.state.show}
+        toggleModal={this.toggleModal}
+        getScores={this.getScores()}/>
 
       </>
     )
