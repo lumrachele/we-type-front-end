@@ -26,7 +26,7 @@ displayGames = ()=>{
       <Card className={null} id={game.id} >
         <CardMedia
           className={null}
-          image="rawpixel-749470-unsplash.jpg"
+          image={`${game.imageURL}`}
           alt="Image title"
         />
         <CardContent className={null}>
@@ -34,7 +34,7 @@ displayGames = ()=>{
             {game.name}
           </Typography>
           <Typography>
-            {game.quote.content}
+          <img src={`${game.imageURL}`} alt={game.name} style={{width:"320px"}}/>
           </Typography>
         </CardContent>
         <CardActions>
@@ -51,6 +51,8 @@ displayGames = ()=>{
 }
 
   render(){
+    console.log(this.props.games)
+
     return(
       <Grid container spacing={40} onClick={null}>
         {this.displayGames()}
