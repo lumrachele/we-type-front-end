@@ -8,7 +8,10 @@ import ReactDOM from 'react-router-dom'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { withRouter } from "react-router";
 import { NavLink } from 'react-router-dom'
+
+
 import Highlighter from "react-highlight-words"
+
 
 var Highlight = require('react-highlighter');
 
@@ -43,17 +46,40 @@ componentDidMount() {
   }))
 }
 
+//when you click start, this will
+// render the quote
+// start the timer - setinterval
+// render an input form
+  // componentDidMount () {
+  //   fetch('http://localhost:3000/api/v1/games')
+  //   .then(response => response.json())
+  //   .then(games => {
+  //     const updatedGames = games.map(game => {
+  //       return {...game, completed: false}
+  //     })
+  //     this.setState({
+  //       games: updatedGames,
+  //       this.props.currentGame: updatedGames[0]
+  //     }, console.log(updatedGames))
+  //   })
+  //   .then(this.splitQuote)
+  // }
 
-handleChange=(event)=>{
-  event.persist()
-  console.log(event.target.value)
-  if (event.target.value === " " ) {
-    event.target.value = ""
-  }
-  this.setState({
-    typedWord: event.target.value
-  })
+
+  handleChange=(event)=>{
+    event.persist()
+
+    console.log(event.target.value)
+    if (event.target.value === " " ) {
+      event.target.value = ""
+    }
+    //debugger
+    this.setState({
+      typedWord: event.target.value
+    })
+
   if(event.target.value!==this.state.splitQuote[this.state.currentWordIndex]){
+
     this.setState({
       backgroundColor: "rgb(255, 0, 0, 0.5)",
       disabled: true
@@ -150,21 +176,28 @@ getHighlight=()=>{
     return(
       <>
       <nav>
-        <NavLink to="/">Back to Main Menu</NavLink>
+        <NavLink activeStyle={{fontSize: "18px", color: "blue" }} to="/">Back to Main Menu</NavLink>
       </nav>
-      <h1>GAME!</h1>
-      <img src="https://media0.giphy.com/media/o0vwzuFwCGAFO/200w.webp?cid=3640f6095c632f24445833616bf2c3bb" alt="cat-typing"/>
 
-      <p><Highlighter
+      <h3>Let's Type!</h3>
+
+      {this.state.showQuote &&
+        <>
+              <p><Highlighter
       searchWords={this.getHighlight()}
       textToHighlight={this.state.splitQuote.join(' ')}
       /></p>
         <p>by {this.props.currentGame.quote.author}</p>
 
-        {this.state.showInput &&
-            <input ref={(input)=>{this.input = input}} style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
+
+        {{this.state.showInput &&
+            <input style={{backgroundColor: this.state.backgroundColor, height: '50px', width: '300px'}}  id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
              onKeyDown={this.handleKeyDown}/>
-           }
+
+      <img src="https://media0.giphy.com/media/o0vwzuFwCGAFO/200w.webp?cid=3640f6095c632f24445833616bf2c3bb" alt="cat-typing"/>
+
+
+   
 
         <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}
         currentGame={this.props.currentGame}
