@@ -10,14 +10,17 @@ import { withRouter } from "react-router";
 import { NavLink } from 'react-router-dom'
 
 
+import Highlighter from "react-highlight-words"
 
+
+var Highlight = require('react-highlighter');
 
 class Game extends React.Component{
 state= {
   quote: {},
   games: [],
   // this.props.currentGame: {},
-  showQuote: false,
+  // showQuote: false,
   splitQuote: [],
   currentWordIndex: 0,
   typedWord: "",
@@ -25,14 +28,22 @@ state= {
   backgroundColor: "",
   disabled: true,
   status: false,
-  scores: []
+  scores: [],
+  showInput: false,
+  show: false,
+  highlight:[]
 
 }
-
-spanTagsForSplitQuote=()=>{
-  this.state.splitQuote.map((q)=>{
-    return <span>q</span>
-  })
+//
+componentDidMount() {
+  this.splitQuote()
+  // this.spanTagsForSplitQuote()
+  // this.input.focus()
+  fetch('http://localhost:3000/api/v1/scores')
+  .then(response => response.json())
+  .then(scores=> this.setState({
+    scores: scores
+  }))
 }
 
 //when you click start, this will
@@ -66,46 +77,38 @@ spanTagsForSplitQuote=()=>{
     this.setState({
       typedWord: event.target.value
     })
-    if(event.target.value!==this.state.splitQuote[this.state.currentWordIndex]){
-      this.setState({
-        backgroundColor: "rgb(255, 0, 0, 0.7)",
-        disabled: true
-      })
-    }
-   else if( event.target.value===this.state.splitQuote[this.state.currentWordIndex])
-    {
+
+  if(event.target.value!==this.state.splitQuote[this.state.currentWordIndex]){
+
     this.setState({
-      correctTypedWord: event.target.value,
-      backgroundColor: "",
-      disabled: false
-    })
-  } else if (this.state.currentWordIndex === this.state.splitQuote.length-1){
-    this.setState({
+      backgroundColor: "rgb(255, 0, 0, 0.5)",
       disabled: true
     })
   }
-
+  else if( event.target.value===this.state.splitQuote[this.state.currentWordIndex])
+  {
+  this.setState({
+    correctTypedWord: event.target.value,
+    backgroundColor: "",
+    disabled: false
+  })
+  } else if (this.state.currentWordIndex === this.state.splitQuote.length-1){
+  this.setState({
+    disabled: true
+  })
   }
+
+}
 
       // this is where we want to start the timer, either when user begins
       //typing, or when user clicks start button
 
   startGame=()=>{
     this.setState({
-      showQuote: true
+      showInput: true
     })
   }
 
-componentDidMount() {
-  this.splitQuote()
-  fetch('http://localhost:3000/api/v1/scores')
-  .then(response => response.json())
-  .then(scores=> this.setState({
-    scores: scores
-  }))
-
-
-}
   splitQuote= () => {
     const splitQuote= this.props.currentGame.quote.content.split(' ')
     this.setState({
@@ -114,28 +117,16 @@ componentDidMount() {
   }
 
   matchWords = ()=>{
-    if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]
-  ){
-    this.setState({
-    currentWordIndex: this.state.currentWordIndex+1,
-    typedWord: "",
-    correctTypedWord: "",
-    disabled: true
-  })
-  }
-    //
-    // const changeColor = this.state.splitQuote.map((word)=>{
-    //   if(this.state.typedWord===word){
-    //     return this.state.splitQuote[this.state.currentWordIndex].style.underline
-    //     }
-    //     else {
-    //       return word
-    //     }
-    // })
-    // this.setState({
-    //   splitQuote: changeColor
-    // })
-    // return changeColor
+    if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]){
+      this.setState({
+      currentWordIndex: this.state.currentWordIndex+1,
+      typedWord: "",
+      correctTypedWord: "",
+      disabled: true,
+      highlight: [...this.state.highlight, this.state.splitQuote[this.state.currentWordIndex]]
+      })
+
+    }
   }
 
   handleKeyDown=(event)=>{
@@ -159,9 +150,6 @@ componentDidMount() {
       })
     })
     .then(res=>res.json())
-    // .then(scores=> this.setState({
-    //   scores
-    // }))
     .then(score=>this.setState({
       scores: [...this.state.scores, score]
     }))
@@ -171,33 +159,52 @@ componentDidMount() {
     return this.state.scores
   }
 
+  toggleModal=()=>{
+    this.setState({
+      show: !this.state.show
+    })
+  }
+
+  //when the user finishes typing/ ends the game,
+  // it should toggle modal to be true
+getHighlight=()=>{
+  return this.state.highlight
+}
 
   render(){
+    console.log(this.state.highlight)
     return(
       <>
-
       <nav>
         <NavLink activeStyle={{fontSize: "18px", color: "blue" }} to="/">Back to Main Menu</NavLink>
       </nav>
-
 
       <h3>Let's Type!</h3>
 
       {this.state.showQuote &&
         <>
-        <p>{this.state.splitQuote.join(' ')} </p>
+              <p><Highlighter
+      searchWords={this.getHighlight()}
+      textToHighlight={this.state.splitQuote.join(' ')}
+      /></p>
         <p>by {this.props.currentGame.quote.author}</p>
-        {this.state.currentWordIndex < this.state.splitQuote.length &&
+
+
+        {{this.state.showInput &&
             <input style={{backgroundColor: this.state.backgroundColor, height: '50px', width: '300px'}}  id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
              onKeyDown={this.handleKeyDown}/>
 
-        }
+      <img src="https://media0.giphy.com/media/o0vwzuFwCGAFO/200w.webp?cid=3640f6095c632f24445833616bf2c3bb" alt="cat-typing"/>
 
-      </>}
+
+   
+
         <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}
         currentGame={this.props.currentGame}
-        submitUsername = {this.submitUsername}/>
-        <Scoreboard scores={this.getScores()}/>
+        submitUsername = {this.submitUsername}
+        show={this.state.show}
+        toggleModal={this.toggleModal}
+        getScores={this.getScores()}/>
 
       </>
     )

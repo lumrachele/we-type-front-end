@@ -181,20 +181,3 @@ class GameContainer extends Component {
 }
 
 export default withRouter(GameContainer)
-// { this.state.startedGame ?
-  //
-  //   <Game startGame={this.handleStartGame} currentGame={this.state.currentGame}/>
-  //   :
-  //   <Main games={this.state.games} handleStartGame={this.handleStartGame} />
-  // }
-
-
-// <Router>
-//   <>
-//     <nav>
-//       <Link to="/main">Back to Main Menu</Link>
-//     </nav>
-//     <Route path="/main" component={()=><Main games={this.state.games} handleStartGame={this.handleStartGame} />}
-//     />
-//   </>
-// </Router>

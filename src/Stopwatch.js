@@ -1,14 +1,35 @@
 import React from 'react'
 import Modal from '@material-ui/core/Modal';
 // import Score from './Score'
+import Modal from './Modal'
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import { NavLink } from 'react-router-dom'
+import Scoreboard from './Scoreboard'
+
+
+
 
 export default class Stopwatch extends React.Component{
   state = {
     status: this.props.status,
     runningTime: 0,
     finishedTime: null,
-    username: ""
+    username: "",
+    show: true,
+    showInput: true
   };
+
+  showModal = () => {
+    this.setState({ show: true });
+  };
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
+
   handleClick = () => {
     this.setState(state => {
       if (state.status) {
@@ -31,7 +52,7 @@ export default class Stopwatch extends React.Component{
 
   calculateScore= ()=> {
     clearInterval(this.timer)
-    return this.props.quoteLength*60/Math.floor(this.state.finishedTime/1000)
+    return Math.round(this.props.quoteLength*60/(this.state.finishedTime/1000))
   }
 
   handleName=(event)=>{
@@ -45,7 +66,9 @@ export default class Stopwatch extends React.Component{
     event.preventDefault()
     this.props.submitUsername(this.state.username, this.calculateScore())
     this.setState({
-      username: ""
+      username: "",
+      modal: true,
+      showInput: false
     })
   }
 
@@ -59,12 +82,23 @@ export default class Stopwatch extends React.Component{
         <img src='https://img.icons8.com/ios/2x/start.png'onClick={this.handleClick}/>
         </>
         :
+
           <React.Fragment>
 
-            <form onSubmit={this.handleSubmit}>
-              <h1> Your Score: {this.calculateScore()} words per minute
-              </h1>
-              <label>Username:</label>
+        <Modal show={this.state.show} handleClose={this.hideModal} calculateScore={this.calculateScore()}>
+              <Typography variant="h2"> Your Score
+              </Typography>
+              <Typography variant="h4">
+              {this.calculateScore()} words per minute
+              </Typography>
+              <Typography>
+              <img src={"https://media0.giphy.com/media/3o7qDEq2bMbcbPRQ2c/giphy.gif?cid=3640f6095c6491ba515647304177f8f2"} alt={"finished"} style={{width:"320px"}}/>
+              </Typography>
+
+              {this.state.showInput? <>
+                <form onSubmit={this.handleSubmit}>
+                <label variant="subtitle1">Username:</label>
+
               <br></br>
 
               <input name="username" type="text" value={this.state.username} onChange={this.handleName}/>
@@ -73,6 +107,13 @@ export default class Stopwatch extends React.Component{
             </form>
 
           </React.Fragment>
+                  
+            </>: <><NavLink to="/">Back to Main Menu</NavLink>
+            <Scoreboard scores={this.props.getScores}
+            /></>}
+
+          </Modal>
+
         }
       </div>
     );
