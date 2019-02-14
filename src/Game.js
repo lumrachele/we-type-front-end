@@ -7,6 +7,8 @@ import Main from './Main'
 import ReactDOM from 'react-router-dom'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { withRouter } from "react-router";
+import { NavLink } from 'react-router-dom'
+
 
 
 
@@ -32,6 +34,7 @@ spanTagsForSplitQuote=()=>{
     return <span>q</span>
   })
 }
+
 //when you click start, this will
 // render the quote
 // start the timer - setinterval
@@ -174,18 +177,18 @@ componentDidMount() {
       <>
 
       <nav>
-        <Link to="/">Back to Main Menu</Link>
+        <NavLink activeStyle={{fontSize: "18px", color: "blue" }} to="/">Back to Main Menu</NavLink>
       </nav>
 
 
-      <h1>GAME!</h1>
-      <img src="https://media0.giphy.com/media/o0vwzuFwCGAFO/200w.webp?cid=3640f6095c632f24445833616bf2c3bb" alt="cat-typing"/>
+      <h3>Let's Type!</h3>
 
       {this.state.showQuote &&
         <>
-        <p>{this.state.splitQuote.join(' ')} by {this.props.currentGame.quote.author}</p>
+        <p>{this.state.splitQuote.join(' ')} </p>
+        <p>by {this.props.currentGame.quote.author}</p>
         {this.state.currentWordIndex < this.state.splitQuote.length &&
-            <input style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
+            <input style={{backgroundColor: this.state.backgroundColor, height: '50px', width: '300px'}}  id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
              onKeyDown={this.handleKeyDown}/>
 
         }

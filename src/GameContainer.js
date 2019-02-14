@@ -159,11 +159,14 @@ class GameContainer extends Component {
 
     return (
       <div className="GameContainer">
-      <h1>Welcome to WeType</h1>
+      
       <Router>
         <>
+
           <Route path="/" exact component={()=><Main games={this.state.games} handleStartGame={this.handleStartGame} />
         }  />
+
+
 
           <Route path={this.gameURL()} component={()=><Game startGame={this.handleStartGame} currentGame={this.state.currentGame} />
         }

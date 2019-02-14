@@ -21,6 +21,7 @@ import { withRouter } from "react-router";
 class Main extends React.Component {
 
 displayGames = ()=>{
+  // console.log(this.props.games);
   return this.props.games.map(game => {
     return (<Grid item key={game.id} game={game} sm={6} md={4} lg={3} onClick={this.findCard}>
       <Card className={null} id={game.id} >
@@ -29,13 +30,11 @@ displayGames = ()=>{
           image="rawpixel-749470-unsplash.jpg"
           alt="Image title"
         />
-        <CardContent className={null}>
+      <CardContent className='cards'>
           <Typography gutterBottom variant="h5" component="h2">
             {game.name}
           </Typography>
-          <Typography>
-            {game.quote.content}
-          </Typography>
+          
         </CardContent>
         <CardActions>
           <Button onClick={()=>{

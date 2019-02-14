@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import GameContainer from './GameContainer'
+import Header from './Header'
 // import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -82,6 +83,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+      <Header />
       <GameContainer/>
       </div>
     );

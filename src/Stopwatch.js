@@ -1,4 +1,5 @@
 import React from 'react'
+import Modal from '@material-ui/core/Modal';
 // import Score from './Score'
 
 export default class Stopwatch extends React.Component{
@@ -55,18 +56,22 @@ export default class Stopwatch extends React.Component{
         { this.props.currentWordIndex < this.props.quoteLength ?
           <>
           <p>{Math.floor(runningTime/1000)} s</p>
-        <button onClick={this.handleClick}>{status ? 'Pause' : 'Start'}</button>
+        <img src='https://img.icons8.com/ios/2x/start.png'onClick={this.handleClick}/>
         </>
         :
           <React.Fragment>
+
             <form onSubmit={this.handleSubmit}>
               <h1> Your Score: {this.calculateScore()} words per minute
               </h1>
               <label>Username:</label>
               <br></br>
+
               <input name="username" type="text" value={this.state.username} onChange={this.handleName}/>
               <input type="submit" value= "Submit"/>
+
             </form>
+
           </React.Fragment>
         }
       </div>
