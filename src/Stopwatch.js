@@ -78,7 +78,7 @@ export default class Stopwatch extends React.Component{
         { this.props.currentWordIndex < this.props.quoteLength ?
           <>
             <p>{Math.floor(runningTime/1000)} s</p>
-            <img src='https://img.icons8.com/ios/2x/start.png'onClick={this.handleClick}/>
+            <img src='https://img.icons8.com/ios/2x/start.png' width= '50px' onClick={this.handleClick}/>
           </>
         :
 
@@ -97,12 +97,12 @@ export default class Stopwatch extends React.Component{
               <form onSubmit={this.handleSubmit}>
                 <label variant="subtitle1">Username:</label>
                 <br></br>
-                <input name="username" type="text" value={this.state.username} onChange={this.handleName}/>
+                <input autoFocus name="username" type="text" value={this.state.username} onChange={this.handleName}/>
                 <input type="submit" value= "Submit"/>
               </form>
               :
               <>
-              <NavLink to="/">Back to Main Menu</NavLink>
+              <NavLink activeStyle={{fontSize: "18px", color: "black" }} to="/">Back to Main Menu</NavLink>
               <Scoreboard scores={this.props.getScores}/>
               </>
           }

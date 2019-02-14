@@ -35,7 +35,7 @@ displayGames = ()=>{
             {game.name}
           </Typography>
           <Typography>
-          <img src={`${game.imageURL}`} alt={game.name} style={{width:"320px"}}/>
+          <img src={`${game.imageURL}`} alt={game.name} style={{width:"300px"}}/>
           </Typography>
         </CardContent>
         <CardActions>

@@ -34,14 +34,13 @@
   background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
   font-family: monospace;
   font-size: 40px;
-  padding: none;
 }
 .cards {
   font-family: monospace;
 }
 .userInput {
   height:300px;
-  font-size:25px;
+
 }
 .header {
   font-family: monospace;

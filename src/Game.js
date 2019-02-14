@@ -176,7 +176,7 @@ getHighlight=()=>{
     return(
     <>
       <nav>
-        <NavLink activeStyle={{fontSize: "18px", color: "blue" }} to="/">Back to Main Menu</NavLink>
+        <NavLink activeStyle={{fontSize: "18px", color: "black" }} to="/">Back to Main Menu</NavLink>
       </nav>
 
       <h3>Let's Type!</h3>
@@ -193,7 +193,7 @@ getHighlight=()=>{
 
 
         {this.state.showInput &&
-            <input style={{backgroundColor: this.state.backgroundColor, height: '50px', width: '300px'}}  id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
+            <input autoFocus style={{backgroundColor: this.state.backgroundColor, height: '50px', width: '300px', fontSize: '38px'}}  id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
              onKeyDown={this.handleKeyDown}/>}
 
         <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}
