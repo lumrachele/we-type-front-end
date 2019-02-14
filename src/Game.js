@@ -174,37 +174,35 @@ getHighlight=()=>{
   render(){
     console.log(this.state.highlight)
     return(
-      <>
+    <>
       <nav>
         <NavLink activeStyle={{fontSize: "18px", color: "blue" }} to="/">Back to Main Menu</NavLink>
       </nav>
 
       <h3>Let's Type!</h3>
 
-      {this.state.showQuote &&
-        <>
-              <p><Highlighter
-      searchWords={this.getHighlight()}
-      textToHighlight={this.state.splitQuote.join(' ')}
-      /></p>
+
+
+          <p>
+          <Highlighter
+            searchWords={this.getHighlight()}
+            textToHighlight={this.state.splitQuote.join(' ')}
+          />
+      </p>
         <p>by {this.props.currentGame.quote.author}</p>
 
 
-        {{this.state.showInput &&
+        {this.state.showInput &&
             <input style={{backgroundColor: this.state.backgroundColor, height: '50px', width: '300px'}}  id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
-             onKeyDown={this.handleKeyDown}/>
-
-      <img src="https://media0.giphy.com/media/o0vwzuFwCGAFO/200w.webp?cid=3640f6095c632f24445833616bf2c3bb" alt="cat-typing"/>
-
-
-   
+             onKeyDown={this.handleKeyDown}/>}
 
         <Stopwatch startGame={this.startGame} quoteLength={this.state.splitQuote.length} currentWordIndex={this.state.currentWordIndex} status={this.state.status}
         currentGame={this.props.currentGame}
         submitUsername = {this.submitUsername}
         show={this.state.show}
         toggleModal={this.toggleModal}
-        getScores={this.getScores()}/>
+        getScores={this.getScores()}
+        />
 
       </>
     )

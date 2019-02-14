@@ -1,5 +1,4 @@
 import React from 'react'
-import Modal from '@material-ui/core/Modal';
 // import Score from './Score'
 import Modal from './Modal'
 import Button from '@material-ui/core/Button';
@@ -78,40 +77,35 @@ export default class Stopwatch extends React.Component{
       <div>
         { this.props.currentWordIndex < this.props.quoteLength ?
           <>
-          <p>{Math.floor(runningTime/1000)} s</p>
-        <img src='https://img.icons8.com/ios/2x/start.png'onClick={this.handleClick}/>
-        </>
+            <p>{Math.floor(runningTime/1000)} s</p>
+            <img src='https://img.icons8.com/ios/2x/start.png'onClick={this.handleClick}/>
+          </>
         :
 
-          <React.Fragment>
 
         <Modal show={this.state.show} handleClose={this.hideModal} calculateScore={this.calculateScore()}>
-              <Typography variant="h2"> Your Score
-              </Typography>
-              <Typography variant="h4">
-              {this.calculateScore()} words per minute
-              </Typography>
-              <Typography>
-              <img src={"https://media0.giphy.com/media/3o7qDEq2bMbcbPRQ2c/giphy.gif?cid=3640f6095c6491ba515647304177f8f2"} alt={"finished"} style={{width:"320px"}}/>
-              </Typography>
+          <Typography variant="h2"> Your Score
+          </Typography>
+          <Typography variant="h4">
+            {this.calculateScore()} words per minute
+          </Typography>
+          <Typography>
+            <img src={"https://media0.giphy.com/media/3o7qDEq2bMbcbPRQ2c/giphy.gif?cid=3640f6095c6491ba515647304177f8f2"} alt={"finished"} style={{width:"320px"}}/>
+          </Typography>
 
-              {this.state.showInput? <>
-                <form onSubmit={this.handleSubmit}>
+          {this.state.showInput?
+              <form onSubmit={this.handleSubmit}>
                 <label variant="subtitle1">Username:</label>
-
-              <br></br>
-
-              <input name="username" type="text" value={this.state.username} onChange={this.handleName}/>
-              <input type="submit" value= "Submit"/>
-
-            </form>
-
-          </React.Fragment>
-                  
-            </>: <><NavLink to="/">Back to Main Menu</NavLink>
-            <Scoreboard scores={this.props.getScores}
-            /></>}
-
+                <br></br>
+                <input name="username" type="text" value={this.state.username} onChange={this.handleName}/>
+                <input type="submit" value= "Submit"/>
+              </form>
+              :
+              <>
+              <NavLink to="/">Back to Main Menu</NavLink>
+              <Scoreboard scores={this.props.getScores}/>
+              </>
+          }
           </Modal>
 
         }
