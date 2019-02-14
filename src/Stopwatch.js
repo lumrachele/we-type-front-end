@@ -84,26 +84,39 @@ export default class Stopwatch extends React.Component{
 
 
         <Modal show={this.state.show} handleClose={this.hideModal} calculateScore={this.calculateScore()}>
-          <Typography variant="h2"> Your Score
-          </Typography>
-          <Typography variant="h4">
-            {this.calculateScore()} words per minute
-          </Typography>
-          <Typography>
-            <img src={"https://media0.giphy.com/media/3o7qDEq2bMbcbPRQ2c/giphy.gif?cid=3640f6095c6491ba515647304177f8f2"} alt={"finished"} style={{width:"320px"}}/>
-          </Typography>
-
+        <br></br>
+          <NavLink to="/">Back to Main Menu</NavLink>
+          <h2>
+          You typed
+            <strong style={{color: "#33ccff"}}> {this.calculateScore()} wpm</strong>
+          </h2>
           {this.state.showInput?
+              <>
+                  <img src={"https://media0.giphy.com/media/3o7qDEq2bMbcbPRQ2c/giphy.gif?cid=3640f6095c6491ba515647304177f8f2"} alt={"finished"} style={{width:"320px"}}/>
               <form onSubmit={this.handleSubmit}>
                 <label variant="subtitle1">Username:</label>
                 <br></br>
+
                 <input autoFocus name="username" type="text" value={this.state.username} onChange={this.handleName}/>
                 <input type="submit" value= "Submit"/>
+
+                <input name="username" type="text" value={this.state.username} onChange={this.handleName}/>
+
+
               </form>
+                    <br></br>
+              </>
               :
               <>
+
               <NavLink activeStyle={{fontSize: "18px", color: "black" }} to="/">Back to Main Menu</NavLink>
+              <div>
+
               <Scoreboard scores={this.props.getScores}/>
+              </div>
+
+
+
               </>
           }
           </Modal>

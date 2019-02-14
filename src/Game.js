@@ -13,7 +13,10 @@ import { NavLink } from 'react-router-dom'
 import Highlighter from "react-highlight-words"
 
 
-var Highlight = require('react-highlighter');
+  const Highlight = ({ children, highlightIndex }) => (
+    <strong className="highlighted-text">{children}</strong>
+  );
+// var Highlight = require('react-highlighter');
 
 class Game extends React.Component{
 state= {
@@ -116,6 +119,7 @@ componentDidMount() {
     })
   }
 
+
   matchWords = ()=>{
     if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]){
       this.setState({
@@ -126,8 +130,26 @@ componentDidMount() {
       highlight: [...this.state.highlight, this.state.splitQuote[this.state.currentWordIndex]]
       })
 
+      // const highlightwords = this.state.splitQuote.map((word, i)=>{
+      //   if(word===this.state.correctTypedWord){
+      //     return <strong style={{backgroundColor: "red"}}>{this.state.splitQuote[i]}</strong>
+      //   }
+      //   return word
+      // })
+      //
+      // this.setState({
+      //   splitQuote: highlightwords
+      // })
+
+
+
     }
   }
+
+//maybe use a find?
+//indexOf()?
+
+
 
   handleKeyDown=(event)=>{
     if(event.key === " " && this.state.correctTypedWord){
@@ -172,7 +194,7 @@ getHighlight=()=>{
 }
 
   render(){
-    console.log(this.state.highlight)
+    console.log(this.state.splitQuote)
     return(
     <>
       <nav>
@@ -181,14 +203,13 @@ getHighlight=()=>{
 
       <h3>Let's Type!</h3>
 
-
-
-          <p>
-          <Highlighter
-            searchWords={this.getHighlight()}
-            textToHighlight={this.state.splitQuote.join(' ')}
-          />
+      <p>
+        <Highlighter
+          searchWords={this.getHighlight()}
+          textToHighlight={this.state.splitQuote.join(' ')}
+        />
       </p>
+
         <p>by {this.props.currentGame.quote.author}</p>
 
 
