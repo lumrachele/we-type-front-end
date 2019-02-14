@@ -8,8 +8,9 @@ import ReactDOM from 'react-router-dom'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { withRouter } from "react-router";
 import { NavLink } from 'react-router-dom'
+import Highlighter from "react-highlight-words"
 
-
+var Highlight = require('react-highlighter');
 
 class Game extends React.Component{
 state= {
@@ -26,66 +27,52 @@ state= {
   status: false,
   scores: [],
   showInput: false,
-  show: false
+  show: false,
+  highlight:[]
 
 }
+//
+componentDidMount() {
+  this.splitQuote()
+  // this.spanTagsForSplitQuote()
+  // this.input.focus()
+  fetch('http://localhost:3000/api/v1/scores')
+  .then(response => response.json())
+  .then(scores=> this.setState({
+    scores: scores
+  }))
+}
 
-spanTagsForSplitQuote=()=>{
-  this.state.splitQuote.map((q)=>{
-    return <span>q</span>
+
+handleChange=(event)=>{
+  event.persist()
+  console.log(event.target.value)
+  if (event.target.value === " " ) {
+    event.target.value = ""
+  }
+  this.setState({
+    typedWord: event.target.value
   })
-}
-//when you click start, this will
-// render the quote
-// start the timer - setinterval
-// render an input form
-  // componentDidMount () {
-  //   fetch('http://localhost:3000/api/v1/games')
-  //   .then(response => response.json())
-  //   .then(games => {
-  //     const updatedGames = games.map(game => {
-  //       return {...game, completed: false}
-  //     })
-  //     this.setState({
-  //       games: updatedGames,
-  //       this.props.currentGame: updatedGames[0]
-  //     }, console.log(updatedGames))
-  //   })
-  //   .then(this.splitQuote)
-  // }
-
-
-  handleChange=(event)=>{
-    event.persist()
-
-    console.log(event.target.value)
-    if (event.target.value === " " ) {
-      event.target.value = ""
-    }
-    //debugger
+  if(event.target.value!==this.state.splitQuote[this.state.currentWordIndex]){
     this.setState({
-      typedWord: event.target.value
-    })
-    if(event.target.value!==this.state.splitQuote[this.state.currentWordIndex]){
-      this.setState({
-        backgroundColor: "rgb(255, 0, 0, 0.7)",
-        disabled: true
-      })
-    }
-   else if( event.target.value===this.state.splitQuote[this.state.currentWordIndex])
-    {
-    this.setState({
-      correctTypedWord: event.target.value,
-      backgroundColor: "",
-      disabled: false
-    })
-  } else if (this.state.currentWordIndex === this.state.splitQuote.length-1){
-    this.setState({
+      backgroundColor: "rgb(255, 0, 0, 0.5)",
       disabled: true
     })
   }
-
+  else if( event.target.value===this.state.splitQuote[this.state.currentWordIndex])
+  {
+  this.setState({
+    correctTypedWord: event.target.value,
+    backgroundColor: "",
+    disabled: false
+  })
+  } else if (this.state.currentWordIndex === this.state.splitQuote.length-1){
+  this.setState({
+    disabled: true
+  })
   }
+
+}
 
       // this is where we want to start the timer, either when user begins
       //typing, or when user clicks start button
@@ -96,15 +83,6 @@ spanTagsForSplitQuote=()=>{
     })
   }
 
-componentDidMount() {
-  this.splitQuote()
-  // this.input.focus()
-  fetch('http://localhost:3000/api/v1/scores')
-  .then(response => response.json())
-  .then(scores=> this.setState({
-    scores: scores
-  }))
-}
   splitQuote= () => {
     const splitQuote= this.props.currentGame.quote.content.split(' ')
     this.setState({
@@ -113,28 +91,16 @@ componentDidMount() {
   }
 
   matchWords = ()=>{
-    if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]
-  ){
+    if(this.state.typedWord===this.state.splitQuote[this.state.currentWordIndex]){
       this.setState({
       currentWordIndex: this.state.currentWordIndex+1,
       typedWord: "",
       correctTypedWord: "",
-      disabled: true
-    })
-  }
-    //
-    // const changeColor = this.state.splitQuote.map((word)=>{
-    //   if(this.state.typedWord===word){
-    //     return this.state.splitQuote[this.state.currentWordIndex].style.underline
-    //     }
-    //     else {
-    //       return word
-    //     }
-    // })
-    // this.setState({
-    //   splitQuote: changeColor
-    // })
-    // return changeColor
+      disabled: true,
+      highlight: [...this.state.highlight, this.state.splitQuote[this.state.currentWordIndex]]
+      })
+
+    }
   }
 
   handleKeyDown=(event)=>{
@@ -175,9 +141,12 @@ componentDidMount() {
 
   //when the user finishes typing/ ends the game,
   // it should toggle modal to be true
-
+getHighlight=()=>{
+  return this.state.highlight
+}
 
   render(){
+    console.log(this.state.highlight)
     return(
       <>
       <nav>
@@ -186,7 +155,11 @@ componentDidMount() {
       <h1>GAME!</h1>
       <img src="https://media0.giphy.com/media/o0vwzuFwCGAFO/200w.webp?cid=3640f6095c632f24445833616bf2c3bb" alt="cat-typing"/>
 
-        <p>{this.state.splitQuote.join(' ')} by {this.props.currentGame.quote.author}</p>
+      <p><Highlighter
+      searchWords={this.getHighlight()}
+      textToHighlight={this.state.splitQuote.join(' ')}
+      /></p>
+        <p>by {this.props.currentGame.quote.author}</p>
 
         {this.state.showInput &&
             <input ref={(input)=>{this.input = input}} style={{backgroundColor: this.state.backgroundColor}} id="user-input" type="text" name="userInput" onChange={this.handleChange} value={this.state.typedWord}
