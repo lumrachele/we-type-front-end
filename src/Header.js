@@ -4,7 +4,7 @@ class Header extends Component {
 
   render() {
     return (
-      <div className= 'header'>
+      <div className= 'header typewriter'>
       <h1> We Type </h1>
       </div>
     );

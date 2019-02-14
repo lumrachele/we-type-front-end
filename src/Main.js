@@ -22,27 +22,23 @@ class Main extends React.Component {
 
 displayGames = ()=>{
   return this.props.games.map(game => {
-    return (<Grid item key={game.id} game={game} sm={6} md={4} lg={3} onClick={this.findCard}>
-      <Card className={null} id={game.id} >
+    return (<Grid item key={game.id} game={game} sm={6} md={4} lg={3} className={"grid"} onClick={this.findCard}>
+      <Card className={"cards"} id={game.id} onClick={()=>{
+        this.props.history.push(`/games/${game.id}`)
+        this.props.handleStartGame(game.id)}} >
         <CardMedia
           className={null}
-          image={`${game.imageURL}`} height={"320"}
+          image={`${game.imageURL}`}
           alt="Image title"
         />
         <CardContent className={null}>
-          <Typography gutterBottom variant="h5" component="h2">
-            {game.name}
-          </Typography>
-          <Typography>
-          <img src={`${game.imageURL}`} alt={game.name} style={{width:"300px"}}/>
+
+        <Typography>
+          <img src={`${game.imageURL}`} alt={game.name} style={{width:"300px", display: "center"}}/>
           </Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={()=>{
-            this.props.history.push(`/games/${game.id}`)
-            this.props.handleStartGame(game.id)}} id={game.id} size="small" color="primary">
-            Play
-          </Button>
+
         </CardActions>
       </Card>
     </Grid>

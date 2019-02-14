@@ -132,7 +132,7 @@ componentDidMount() {
 
       // const highlightwords = this.state.splitQuote.map((word, i)=>{
       //   if(word===this.state.correctTypedWord){
-      //     return <strong style={{backgroundColor: "red"}}>{this.state.splitQuote[i]}</strong>
+      //     return (<strong style={{backgroundColor: "red"}}>{this.state.splitQuote[i]}</strong>)
       //   }
       //   return word
       // })
@@ -140,7 +140,7 @@ componentDidMount() {
       // this.setState({
       //   splitQuote: highlightwords
       // })
-
+      //
 
 
     }
@@ -204,10 +204,8 @@ getHighlight=()=>{
       <h3>Let's Type!</h3>
 
       <p>
-        <Highlighter
-          searchWords={this.getHighlight()}
-          textToHighlight={this.state.splitQuote.join(' ')}
-        />
+      {this.state.splitQuote.join(' ')}
+
       </p>
 
         <p>by {this.props.currentGame.quote.author}</p>
@@ -231,3 +229,8 @@ getHighlight=()=>{
 }
 
 export default withRouter(Game)
+
+// <Highlighter
+//   searchWords={this.getHighlight()}
+//   textToHighlight={this.state.splitQuote.join(' ')}
+// />

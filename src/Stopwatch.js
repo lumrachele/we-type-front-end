@@ -85,7 +85,6 @@ export default class Stopwatch extends React.Component{
 
         <Modal show={this.state.show} handleClose={this.hideModal} calculateScore={this.calculateScore()}>
         <br></br>
-          <NavLink to="/">Back to Main Menu</NavLink>
           <h2>
           You typed
             <strong style={{color: "#33ccff"}}> {this.calculateScore()} wpm</strong>
@@ -98,10 +97,6 @@ export default class Stopwatch extends React.Component{
                 <br></br>
 
                 <input autoFocus name="username" type="text" value={this.state.username} onChange={this.handleName}/>
-                <input type="submit" value= "Submit"/>
-
-                <input name="username" type="text" value={this.state.username} onChange={this.handleName}/>
-
 
               </form>
                     <br></br>
@@ -114,8 +109,6 @@ export default class Stopwatch extends React.Component{
 
               <Scoreboard scores={this.props.getScores}/>
               </div>
-
-
 
               </>
           }
