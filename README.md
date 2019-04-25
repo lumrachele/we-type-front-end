@@ -37,19 +37,19 @@ To play WeType, fork and clone this repository, along with the [backend reposito
 
 # <h2>Main Components</h2>
 
-# - <h3>Main</h3>
+# <h3>Main</h3>
 ```Main.js``` is responsible for displaying each game tile. It is wrapped in a higher order component ```withRouter``` to enable access to browser history for simple route redirection.
 
-# - <h3>Game</h3>
+# <h3>Game</h3>
 This component is responsible for most of the logic in the game. It displays the quote for the game as well as an input box. It compares each word in the quote with the user's input in sequence, and submission is only available when the words match and the textbox background changes to white from red. It also renders the Stopwatch component. It is rendered at the route ```/games/gameID```
 
-# - <h3>Stopwatch</h3>
+# <h3>Stopwatch</h3>
 Begins an interval when the ```Game``` component is rendered. At the end of the game, this interval's last ```State: runningTime``` is recorded as ```finishedTime``` and then renders the Modal.
 
-# - <h3>Modal</h3>
+# <h3>Modal</h3>
 This component is rendered when a game is complete. It displays the player's score, a celebratory Obama gif, and an input box for a user to enter his/ her name and add it to the scoreboard. Upon submission of the username, the ```Scoreboard.js``` component is rendered, as well as an option to return to the Main Menu, ```Main.js``` and select a new game.
 
-# - <h3>Scoreboard</h3>
+# <h3>Scoreboard</h3>
 Displays the top 10 scores fetched from ```Game.js``` in order from highest to lowest scores.
 
 
